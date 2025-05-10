@@ -1,0 +1,72 @@
+{% load static %}
+{% include "jogos/partials/head.html" %}
+<body class= "body-gamepage">
+    {% include "jogos/partials/header.html" %}
+    <main>
+        {% if jogo.background %}
+            <div class="background-resenha">
+                <img src="{{ jogo.background.url }}" alt="Plano de fundo do jogo {{ jogo.titulo }}">
+            </div>
+        {% endif %}
+
+        <section class="game-container">
+            <article class="game-info">
+                <div class="jogo-capa">
+                    {% if jogo.capa %}
+                        <img src="{{ jogo.capa.url }}" alt="Capa do jogo {{ jogo.titulo }}">
+                    {% endif %}
+                </div>
+    
+                <section>
+                    <div class="titulo-ano">
+                        <h1 class="titulo"><strong>{{ jogo.titulo }}</strong></h1>
+                        <h3 class="ano">{{ jogo.data_lancamento }}</h3> <!-- Corrigido aqui -->
+                    </div>
+    
+                    <div class="diretor">
+                        <p><strong>Desenvolvido por:</strong> {{ jogo.estudio }}</p>
+                    </div>
+
+                    <div class="sinopse">
+                        <p>{{ jogo.descricao }}</p>
+                    </div>
+                </section>
+
+                <aside class="interacao-container">
+
+                    <section class="interacoes">
+                        <div class="jogado" role="button" aria-label="Marcar como jogado">
+                            <img class="icon-jogado" src="{% static 'jogos/images/Jogado.png' %}" alt="Ícone jogado">
+                            <p>Jogado</p>
+                        </div>
+    
+                        <div class="curtir" role="button" aria-label="Curtir este jogo">
+                            <img class="icon-curtir" src="{% static 'jogos/images/curtir.png' %}" alt="Ícone curtir">
+                            <p>Curtir</p>
+                        </div>
+    
+                        <div class="salvar" role="button" aria-label="Salvar jogo">
+                            <img class="icon-nuvem" src="{% static 'jogos/images/nuvem.png' %}" alt="Ícone de salvar na nuvem">
+                            <p>Salvar</p>
+                        </div>    
+                    </section>
+
+                    <section class="container-stars" aria-label="Avaliação por estrelas">
+                        <div class="stars" id="estrelas-resenha">
+                            <span class="star" data-value="1" role="button" aria-label="1 estrela">★</span>
+                            <span class="star" data-value="2" role="button" aria-label="2 estrelas">★</span>
+                            <span class="star" data-value="3" role="button" aria-label="3 estrelas">★</span>
+                            <span class="star" data-value="4" role="button" aria-label="4 estrelas">★</span>
+                            <span class="star" data-value="5" role="button" aria-label="5 estrelas">★</span>
+                        </div>
+                        <p>Média de avaliação: <span id="media-de-estrelas">0</span></p>
+                    </section>
+
+                    <button class="botoes">Revise ou registre...</button>
+                    <button class="botoes">Compartilhar...</button>
+                </aside>
+            </article>
+        </section>
+    </main>
+</body>
+</html>

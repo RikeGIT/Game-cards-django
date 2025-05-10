@@ -1,0 +1,20 @@
+{% load static %}
+<header class="cabecario">
+    <div class="logo">
+        <a href="{% url 'home' %}">
+            <img class="logo-img" src="{% static 'jogos/images/Logo.png' %}" alt="logo da game cards">
+        </a>
+    </div>
+    <nav class="menu-login" alt="menu para criar conta ou logar">
+        <ul>
+            <li><button><strong>Entrar</strong></button></li>
+            <li><button><strong>Crie sua conta</strong></button></li>
+        </ul>
+        <section class="pesquisar-container">
+            <input type="text" name="" id="">
+            <button>
+                <img src="{% static 'jogos/images/icone-pesquisar.png' %}" alt="">
+            </button>
+        </section>
+    </nav>
+</header>

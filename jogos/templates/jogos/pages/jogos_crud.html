@@ -1,0 +1,46 @@
+{% load static %}
+{% include "jogos/partials/head.html" %}
+<body class= "crud">
+    <main class="main-container-crud">
+        <section class="criar">
+            <h1>{% if editando %}Editar Jogo{% else %}Novo Jogo{% endif %}</h1>
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">{% if editando %}Salvar Alterações{% else %}Criar{% endif %}</button>
+                {% if editando %}
+                    <a href="{% url 'jogos_unificados' %}">Cancelar</a>
+                {% endif %}
+            </form>
+
+            <hr>
+        </section>
+    
+        <section class="editar-excluir">
+            <h2>Jogos Cadastrados</h2>
+            <ul>
+                {% for jogo in jogos %}
+                    <li>
+                        <strong>{{ jogo.titulo }}</strong>
+                        {% if jogo.capa %}
+                            <img src="{{ jogo.capa.url }}" alt="{{ jogo.titulo }}">
+                        {% endif %}
+                        
+                        <div class="botoes-acoes">
+                            <a href="{% url 'jogo_editar' jogo.pk %}">Editar</a>
+                            <form action="{% url 'jogo_excluir' jogo.pk %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-excluir">Excluir</button>
+                            </form>
+                        </div>
+
+                    </li>
+                {% empty %}
+                    <li>Nenhum jogo cadastrado.</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

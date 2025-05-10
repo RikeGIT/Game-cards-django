@@ -1,0 +1,44 @@
+    {% load static %}
+    <main>
+        <!-- texto central e background -->
+        <div class="background">
+            <img src="{% static 'jogos/images/Background.png' %}" alt="imagem de casas em 8bit ao fundo">
+        </div>
+
+        <section class="texto-central-container">
+            <p class="texto-central">
+                Avalie os jogos que você jogou.
+                Salve os que você quer jogar.
+                Diga aos seus amigos quais valem a pena.
+            </p>
+            <button onclick="logado()" class="botão-central">Comece agora</button>
+        </section>
+
+        <section class="feed-page-central">
+            <div class="line-container">
+                <h3 class="line-title">JOGOS</h3>
+                <button class="more-btn">Mais</button>
+            </div>
+            <hr class="line-custom">
+        </section>
+
+        <section class="games-section-principal">
+            <div class="games-container">
+                <div class="lista-jogos-container">
+                    <ul class="lista-jogos">
+                        {% for jogo in jogos %}
+                            <li>
+                                <a class="card-jogo" href="{% url 'jogo_detalhes' jogo.pk %}">
+                                    {% if jogo.capa %}
+                                        <img src="{{ jogo.capa.url }}" alt="Capa de {{ jogo.titulo }}" width="200">
+                                    {% endif %}
+                                </a>
+                            </li>
+                        {% empty %}
+                            <li>Nenhum jogo cadastrado.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
