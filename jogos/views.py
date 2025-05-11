@@ -1,10 +1,13 @@
 # jogos/views.py
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, View
 from django.views.decorators.http import require_POST
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.decorators import method_decorator
 from .models import Jogo
 from .forms import JogoForm
+from django.contrib.admin.views.decorators import staff_member_required
+
 
 # VIEWS PUBLICAS
 
@@ -22,8 +25,13 @@ class JogoDetailView(DetailView):
 
 # VIEWS PRIVADAS
 
-class JogoUnifiedView(View):
+class JogoUnifiedView(LoginRequiredMixin, View):
+    login_url = '/login/'
     template_name = 'jogos/pages/jogos_crud.html'
+
+    @method_decorator(staff_member_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
     def get(self, request, pk=None):
         if pk:
@@ -49,7 +57,8 @@ class JogoUnifiedView(View):
         return render(request, self.template_name, {'form': form, 'jogos': jogos, 'editando': pk})
 
 @method_decorator(require_POST, name='dispatch')
-class JogoDeleteView(View):
+class JogoDeleteView(LoginRequiredMixin, View):
+    login_url = '/login/'
     def post(self, request, pk):
         jogo = get_object_or_404(Jogo, pk=pk)
         jogo.delete()
