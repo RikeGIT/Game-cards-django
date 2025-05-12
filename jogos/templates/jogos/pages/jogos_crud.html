@@ -10,7 +10,7 @@
                 {{ form.as_p }}
                 <button type="submit">{% if editando %}Salvar Alterações{% else %}Criar{% endif %}</button>
                 {% if editando %}
-                    <a href="{% url 'jogos_unificados' %}">Cancelar</a>
+                    <a href="{% url 'jogos_admin' %}">Cancelar</a>
                 {% endif %}
             </form>
 

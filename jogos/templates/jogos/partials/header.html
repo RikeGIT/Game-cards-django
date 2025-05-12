@@ -6,6 +6,16 @@
         </a>
     </div>
     <nav class="menu-login" alt="menu para criar conta ou logar">
+        {% if user.is_authenticated %}
+        <h3 class="titulo"><strong>Olá {{ user.username}}</strong></h1>
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn-logout">Sair</button>
+        </form>
+        {% else %}
+            <button class="btn-entrar" onclick="window.location.href='login';">Entrar</button>
+        {% endif %}
+
         <section class="pesquisar-container">
             <input type="text" name="" id="">
             <button>

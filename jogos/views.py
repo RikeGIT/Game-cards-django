@@ -1,65 +1,94 @@
-# jogos/views.py
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, DetailView, View
-from django.views.decorators.http import require_POST
-from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
+from django.http import JsonResponse
+from django.db.models import Avg
 from django.utils.decorators import method_decorator
-from .models import Jogo
-from .forms import JogoForm
+from django.views.decorators.http import require_POST
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required
 
+from .models import Jogo, Avaliacao
+from .forms import JogoForm
 
-# VIEWS PUBLICAS
+# VIEWS PÚBLICAS
 
-# listar todos os jogos
 class JogoListView(ListView):
     model = Jogo
-    template_name = 'jogos/pages/home.html' 
-    context_object_name = 'jogos' 
+    template_name = 'jogos/pages/home.html'
+    context_object_name = 'jogos'
 
-# View publica para mostrar os detalhes de um jogo específico
+
 class JogoDetailView(DetailView):
     model = Jogo
-    template_name = 'jogos/pages/detalhes.html' 
-    context_object_name = 'jogo'  
+    template_name = 'jogos/pages/detalhes.html'
+    context_object_name = 'jogo'
 
-# VIEWS PRIVADAS
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        jogo = self.object
+        media_estrelas = Avaliacao.objects.filter(jogo=jogo).aggregate(Avg("estrelas"))['estrelas__avg'] or 0
+        context['media_estrelas'] = round(media_estrelas, 1)
+        return context
 
-class JogoUnifiedView(LoginRequiredMixin, View):
-    login_url = '/login/'
+
+@login_required
+def avaliar_jogo(request, jogo_id):
+    jogo = get_object_or_404(Jogo, id=jogo_id)
+
+    if request.method == "POST":
+        estrelas = request.POST.get("estrelas")
+        if not estrelas:
+            return JsonResponse({"success": False, "error": "Valor de estrelas não recebido."})
+
+        try:
+            estrelas = int(estrelas)
+            Avaliacao.objects.update_or_create(
+                usuario=request.user, jogo=jogo,
+                defaults={"estrelas": estrelas}
+            )
+            media_estrelas = Avaliacao.objects.filter(jogo=jogo).aggregate(Avg("estrelas"))['estrelas__avg'] or 0
+            return JsonResponse({"success": True, "media_estrelas": round(media_estrelas, 1)})
+        except ValueError:
+            return JsonResponse({"success": False, "error": "Erro ao processar avaliação."})
+
+    return JsonResponse({"success": False, "error": "Método inválido."})
+
+# VIEWS PRIVADAS (CRUD ADMIN)
+
+class StaffRequiredMixin(UserPassesTestMixin):
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class JogoCreateView(StaffRequiredMixin, CreateView):
+    model = Jogo
+    form_class = JogoForm
     template_name = 'jogos/pages/jogos_crud.html'
+    login_url = '/login/'
+    success_url = reverse_lazy('jogos_admin')
 
-    @method_decorator(staff_member_required)
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['jogos'] = Jogo.objects.all()
+        return context
 
-    def get(self, request, pk=None):
-        if pk:
-            jogo = get_object_or_404(Jogo, pk=pk)
-            form = JogoForm(instance=jogo)
-        else:
-            form = JogoForm()
-        jogos = Jogo.objects.all()
-        return render(request, self.template_name, {'form': form, 'jogos': jogos, 'editando': pk})
 
-    def post(self, request, pk=None):
-        if pk:
-            jogo = get_object_or_404(Jogo, pk=pk)
-            form = JogoForm(request.POST, request.FILES, instance=jogo)
-        else:
-            form = JogoForm(request.POST, request.FILES)
+class JogoUpdateView(StaffRequiredMixin, UpdateView):
+    model = Jogo
+    form_class = JogoForm
+    template_name = 'jogos/pages/jogos_crud.html'
+    success_url = reverse_lazy('jogos_admin')
 
-        if form.is_valid():
-            form.save()
-            return redirect('jogos_unificados')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['jogos'] = Jogo.objects.all()
+        context['editando'] = self.object.pk
+        return context
 
-        jogos = Jogo.objects.all()
-        return render(request, self.template_name, {'form': form, 'jogos': jogos, 'editando': pk})
 
 @method_decorator(require_POST, name='dispatch')
-class JogoDeleteView(LoginRequiredMixin, View):
-    login_url = '/login/'
-    def post(self, request, pk):
-        jogo = get_object_or_404(Jogo, pk=pk)
-        jogo.delete()
-        return redirect('jogos_unificados')
+class JogoDeleteView(StaffRequiredMixin, DeleteView):
+    model = Jogo
+    success_url = reverse_lazy('jogos_admin')

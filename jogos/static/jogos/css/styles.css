@@ -89,6 +89,38 @@ body{
     z-index: 1000;
 }
 
+.btn-logout {
+    background-color: #cc3333;
+    color: white;
+    border: none;
+    padding: 0.5em 1em;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-logout:hover {
+    background-color: #aa0000;
+}
+
+.btn-entrar {
+    background-color: #cc3333;
+    color: white;
+    padding: 0.5em 1em;
+    border-radius: 8px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-entrar:hover {
+    background-color: #aa0000;
+}
+
+
+
 .menu-login {
     font-size: 1.3rem;
     color: #D1D3D9;
@@ -615,37 +647,6 @@ height: 100vh;
     color: #80df7d; 
 }
 
-.container-stars {
-    display: flex;
-    flex-direction: column;
-    padding-top: 1em;
-    padding-bottom: 2em;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-}
-
-.container-stars p {
-    margin-top: 0.5em;
-    font-size: 1.1em;
-}
-
-.stars {
-display: flex;
-justify-content: center;
-font-size: 40px;
-gap: 0.5em;
-cursor: pointer;
-}
-
-.star {
-    color: lightgray;
-    transition: color 0.3s;
-}
-.star.active{
-    color: gold;
-}
-
 .botoes,
 .registre{
     width: 19em;
@@ -688,52 +689,6 @@ cursor: pointer;
     width: 60%;
     max-width: 600px;
     animation: modalAparecer 0.4s ease-out;
-}
-
-@keyframes modalAparecer {
-    from {
-        opacity: 0;
-        transform: translateY(-50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.fechar-modal {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.fechar-modal:hover {
-    color: #fff;
-}
-
-.container-estrelas-modal {
-    text-align: center;
-    margin: 20px 0;
-}
-
-.stars-modal {
-    display: flex;
-    justify-content: center;
-    font-size: 40px;
-    margin-bottom: 10px;
-}
-
-.star-modal {
-    color: lightgray;
-    cursor: pointer;
-    transition: color 0.3s;
-    padding: 0 5px;
-}
-
-.star-modal.active {
-    color: gold;
 }
 
 .container-texto-resenha {
@@ -899,5 +854,36 @@ main.main-container-crud {
 
 .botoes-acoes .btn-excluir:hover {
     background-color: #aa0000;
+}
+
+.container-stars {
+    display: flex;
+    flex-direction: column;
+    padding-top: 1em;
+    padding-bottom: 2em;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.container-stars p {
+    margin-top: 0.5em;
+    font-size: 1.1em;
+}
+
+.stars {
+color: #D1D3D9;
+display: flex;
+justify-content: center;
+font-size: 40px;
+gap: 0.5em;
+cursor: pointer;
+transition: color 0.3s ease;
+}
+
+.star.preenchida {
+    color: gold !important;
+    transform: scale(1.2);
+    transition: transform 0.2s ease, color 0.2s ease;
 }
 

@@ -1,6 +1,7 @@
 {% load static %}
 {% include "jogos/partials/head.html" %}
-<body class= "body-gamepage">
+<meta name="csrf-token" content="{{ csrf_token }}">
+<body class="body-gamepage">
     {% include "jogos/partials/header.html" %}
     <main>
         {% if jogo.background %}
@@ -20,7 +21,7 @@
                 <section>
                     <div class="titulo-ano">
                         <h1 class="titulo"><strong>{{ jogo.titulo }}</strong></h1>
-                        <h3 class="ano">{{ jogo.data_lancamento }}</h3> <!-- Corrigido aqui -->
+                        <h3 class="ano">{{ jogo.data_lancamento }}</h3>
                     </div>
     
                     <div class="diretor">
@@ -35,32 +36,31 @@
                 <aside class="interacao-container">
 
                     <section class="interacoes">
-                        <div class="jogado" role="button" aria-label="Marcar como jogado">
+                        <div class="jogado" role="button">
                             <img class="icon-jogado" src="{% static 'jogos/images/Jogado.png' %}" alt="Ícone jogado">
                             <p>Jogado</p>
                         </div>
     
-                        <div class="curtir" role="button" aria-label="Curtir este jogo">
+                        <div class="curtir" role="button">
                             <img class="icon-curtir" src="{% static 'jogos/images/curtir.png' %}" alt="Ícone curtir">
                             <p>Curtir</p>
                         </div>
     
-                        <div class="salvar" role="button" aria-label="Salvar jogo">
-                            <img class="icon-nuvem" src="{% static 'jogos/images/nuvem.png' %}" alt="Ícone de salvar na nuvem">
+                        <div class="salvar" role="button">
+                            <img class="icon-nuvem" src="{% static 'jogos/images/nuvem.png' %}" alt="Ícone salvar">
                             <p>Salvar</p>
                         </div>    
                     </section>
 
-                    <section class="container-stars" aria-label="Avaliação por estrelas">
-                        <div class="stars" id="estrelas-resenha">
-                            <span class="star" data-value="1" role="button" aria-label="1 estrela">★</span>
-                            <span class="star" data-value="2" role="button" aria-label="2 estrelas">★</span>
-                            <span class="star" data-value="3" role="button" aria-label="3 estrelas">★</span>
-                            <span class="star" data-value="4" role="button" aria-label="4 estrelas">★</span>
-                            <span class="star" data-value="5" role="button" aria-label="5 estrelas">★</span>
-                        </div>
-                        <p>Média de avaliação: <span id="media-de-estrelas">0</span></p>
+                    <section class="container-stars">
+                    <div class="stars" id="estrelas-resenha">
+                        {% for i in "12345" %}
+                            <span class="star" data-value="{{ i|add:'0' }}" role="button">★</span>
+                        {% endfor %}
+                    </div>
+                    <p>Média de avaliação: <span id="media-de-estrelas">{{ media_estrelas }}</span></p>
                     </section>
+
 
                     <button class="botoes">Revise ou registre...</button>
                     <button class="botoes">Compartilhar...</button>
@@ -68,5 +68,10 @@
             </article>
         </section>
     </main>
+
+<script>
+    var avaliarJogoUrl = "{% url 'avaliar_jogo' jogo.id %}";
+</script>
+<script src="{% static 'jogos/js/script.js' %}"></script>
 </body>
 </html>

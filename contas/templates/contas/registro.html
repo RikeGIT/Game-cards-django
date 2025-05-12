@@ -2,63 +2,103 @@
 
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <title>Registro</title>
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <style>
         body {
-            background-color: #f0f2f5;
+            background-color: #121212;
+            /* Cor de fundo escura */
+            font-family: 'K2D', sans-serif;
         }
+
         .registro-container {
             max-width: 500px;
             margin: 80px auto;
             padding: 30px;
             background-color: white;
             border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-control {
+            border-radius: 25px;
+            padding: 10px;
+        }
+
+        .mb-3 {
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            width: 8em;
+            border-radius: 4px;
+            background-color: #007bff;
+            /* Azul */
+            color: white;
+            padding: 10px 0;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .alert {
+            border-radius: 4px;
+            background-color: #f8d7da;
+            /* Vermelho claro */
+            color: #721c24;
+            padding: 10px;
+        }
+
+        .text-center {
+            font-family: 'Jersey 25', sans-serif;
         }
     </style>
 </head>
+
 <body>
 
-<div class="registro-container">
-    <h3 class="text-center mb-4">Criar Conta</h3>
+    <div class="registro-container">
+        <h3 class="text-center mb-4">Criar Conta</h3>
 
-    <form method="post" novalidate>
-        {% csrf_token %}
+        <form method="post" novalidate>
+            {% csrf_token %}
 
-        <div class="mb-3">
-            {{ form.username.label_tag }}
-            {{ form.username }}
-            {% for error in form.username.errors %}
+            <div class="mb-3">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                {% for error in form.username.errors %}
                 <div class="text-danger small">{{ error }}</div>
-            {% endfor %}
-        </div>
+                {% endfor %}
+            </div>
 
-        <div class="mb-3">
-            {{ form.email.label_tag }}
-            {{ form.email }}
-            {% for error in form.email.errors %}
+            <div class="mb-3">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+                {% for error in form.email.errors %}
                 <div class="text-danger small">{{ error }}</div>
-            {% endfor %}
-        </div>
+                {% endfor %}
+            </div>
 
-        <div class="mb-3">
-            {{ form.password.label_tag }}
-            {{ form.password }}
-            {% for error in form.password.errors %}
+            <div class="mb-3">
+                {{ form.password.label_tag }}
+                {{ form.password }}
+                {% for error in form.password.errors %}
                 <div class="text-danger small">{{ error }}</div>
-            {% endfor %}
+                {% endfor %}
+            </div>
+
+            <button type="submit" class="btn w-100">Registrar</button>
+        </form>
+
+        <div class="mt-3 text-center">
+            <p>Já tem uma conta? <a href="{% url 'login' %}" style="color: #007bff;">Faça login</a></p>
         </div>
-
-        <button type="submit" class="btn btn-success w-100">Registrar</button>
-    </form>
-
-    <div class="mt-3 text-center">
-        <p>Já tem uma conta? <a href="{% url 'login' %}">Faça login</a></p>
     </div>
-</div>
 
 </body>
+
 </html>
