@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 
 class RegistroForm(forms.ModelForm):
+    email = forms.EmailField(label='Email')
     password = forms.CharField(widget=forms.PasswordInput)
     
     class Meta:
