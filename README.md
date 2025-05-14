@@ -1,4 +1,5 @@
-pode corrigir os erros ortograficos? 
+Web I - Estagio 2
+
 **🚀 Como usar**
 
 **1. Crie um ambiente virtual**
