@@ -2,13 +2,25 @@
 
 **🚀 Como usar**
 
-**1. Instale as dependências**
+**1. Crie um ambiente virtual**
+
+```
+python -m venv venv
+```
+
+**2. Inicie o ambiente virtual**
+
+```
+venv\Scripts\activate
+```
+
+**3. Instale as dependências**
 
 ```
 pip install -r requirements.txt
 ```
 
-**2. Configure seu banco MYSQL no `settings.py`**
+**4. Configure seu banco MYSQL no `settings.py`**
 
 ```
 DATABASES = {
@@ -23,33 +35,27 @@ DATABASES = {
 }
 ```
 
-**3. Crie o seu banco no Mysql Workbench**
+**5. Crie o seu banco no Mysql Workbench**
 
 ```
 CREATE DATABASE gameCards CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;jogos_jogo
 ```
 
-**4. Execute migrações**
+**6. Execute migrações**
 
 ```
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-**5. Carregue os dados no Projeto**
-
-```
-python manage.py loaddata dados.json
-```
-
-**6. Rode o servidor de desenvolvimento**
+**7. Rode o servidor de desenvolvimento**
 
 ```
 python manage.py runserver
 ```
 
-**7. Acesse a aplicação**
+**8. Acesse a aplicação**
 
 Visite [http://localhost:8000](http://localhost:8000/) para ver a lista de jogos.
 
-Você pode adicionar jogos pela rota crud/jogo ou pelo admin
+Você pode adicionar jogos pela rota http://localhost:8000/crud/jogo ou pela rota http://localhost:8000/admin
