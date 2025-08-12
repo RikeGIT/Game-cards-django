@@ -1,3 +1,21 @@
+# 🎮 Apresentação do Projeto
+
+Olá!  
+Este é o **GameCards**, uma rede de avaliação de jogos que nasceu como um projeto antigo e agora está evoluindo para um ambiente totalmente baseado em **Django**.
+
+O objetivo é oferecer uma plataforma onde usuários possam cadastrar, avaliar e gerenciar informações sobre seus jogos favoritos, com um sistema robusto e organizado.  
+Essa evolução trouxe melhorias importantes:
+
+- 🔧 **Sistema CRUD de jogos** — Desenvolvido com *Class-Based Views* (CBVs) do Django, permitindo que administradores adicionem, editem e excluam jogos de forma dinâmica.
+- 🔐 **Sistema de login e registro** — Usuários podem criar contas para personalizar suas avaliações.
+- 🗄 **Banco de dados relacional com MySQL** — Estrutura migrada para um banco relacional, garantindo melhor desempenho e organização dos dados.
+
+Ainda há muito a ser aprimorado, mas esta é apenas a primeira etapa dessa jornada. 🚀
+
+📌 Confira a publicação completa no LinkedIn:  
+[🔗 Post sobre o GameCards](https://www.linkedin.com/feed/update/urn:li:activity:7328492332767408128/)
+
+
 **🚀 Como usar**
 
 **1. Crie um ambiente virtual**
